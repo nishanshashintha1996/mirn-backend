@@ -78,12 +78,33 @@ router.route('/view').get((req,res)=>{
 });
 
 router.route('/view/:mirnid').get( async (req,res) => {
+
     let mirnId = req.params.mirnid;
     mirnData.findOne({mirn:mirnId}).then((data)=>{
         res.json(data);
     }).catch((err)=>{
         console.log(err);
     })
+
+})
+
+router.route('/searchaddress').post((req,res)=>{
+
+    let streetAddress = req.body.streetAddress;
+    let city = req.body.city.toUpperCase();
+    let state = req.body.state.toUpperCase();
+    let postal = req.body.postal;
+
+    mirnData.findOne({siteaddresspostcode:postal, siteaddressstate:state, siteaddresscity:city}).then((data)=>{
+        if(data != null){
+            res.json(data);
+        }else{
+            res.json('not found');
+        }
+    }).catch((err)=>{
+        console.log(err);
+    })
+
 })
 
 module.exports = router;
