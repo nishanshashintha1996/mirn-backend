@@ -90,20 +90,26 @@ router.route('/view/:mirnid').get( async (req,res) => {
 
 router.route('/searchaddress').post((req,res)=>{
 
-    let streetAddress = req.body.streetAddress;
-    let city = req.body.city.toUpperCase();
-    let state = req.body.state.toUpperCase();
-    let postal = req.body.postal;
+    if(req != ""){
+        let street = req.body.street.toUpperCase();
+        let city = req.body.city.toUpperCase();
+        let state = req.body.state.toUpperCase();
+        let postal = req.body.postal;
 
-    mirnData.findOne({siteaddresspostcode:postal, siteaddressstate:state, siteaddresscity:city}).then((data)=>{
-        if(data != null){
-            res.json(data);
-        }else{
-            res.json('not found');
-        }
-    }).catch((err)=>{
-        console.log(err);
-    })
+        // siteaddresspostcode:postal, siteaddressstate:state, siteaddresscity:city, housenumber:housenumber, streetname:street
+
+        mirnData.find({ streetname:street, siteaddresspostcode:postal, siteaddressstate:state, siteaddresscity:city }).then((data)=>{
+            if(data != null){
+                res.json(data);
+            }else{
+                res.json('not found');
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }else{
+        res.json('not found params');
+    }
 
 })
 
