@@ -83,6 +83,7 @@ const mirnDataSchema = new Schema({
     sn : {
         type:Number
     }
+    
 })
 
 const mirnData = mongoose.model('mirnDataSet',mirnDataSchema);
