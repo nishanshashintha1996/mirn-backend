@@ -116,17 +116,27 @@ router.route('/searchaddress').post((req,res)=>{
 router.route('/lv1').post((req,res)=>{
 
     if(req != ""){
-        let houseNumberVal = req.body.houseNumber;
+        let type = req.body.stype;
+        let value = req.body.svalue;
         let state = req.body.state.toUpperCase();
         let postal = req.body.postal;
+
         mirnData.find({ siteaddresspostcode:postal, siteaddressstate:state }).then((data)=>{
             let foundData = new Array();
             if(data != null){
-                data.forEach((element) => {
-                    if(element.housenumber == houseNumberVal){
-                        foundData.push(element);
-                    }
-                });
+                if(type == 'lot'){
+                    data.forEach((element) => {
+                        if(element.lotnumber == value){
+                            foundData.push(element);
+                        }
+                    });
+                }else{
+                    data.forEach((element) => {
+                        if(element.housenumber == value){
+                            foundData.push(element);
+                        }
+                    });
+                }
                 res.json(foundData);
             }else{
                 res.json('null');
