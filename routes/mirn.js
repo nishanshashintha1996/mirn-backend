@@ -150,4 +150,24 @@ router.route('/lv1').post((req,res)=>{
 
 })
 
+router.route('/lv2').post((req,res)=>{
+
+    if(req != ""){
+        let gdata = req.body.data;
+        console.log('hit')
+        mirnData.find( gdata ).then((data)=>{
+            if(data != null){
+                res.json(data);
+            }else{
+                res.json('null');
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }else{
+        res.json('not found params');
+    }
+
+})
+
 module.exports = router;
